@@ -1,0 +1,79 @@
+<!-- pages/input/input.wxml -->
+<view class="container">
+  <!-- 已选手牌展示区 -->
+  <view class="selected-area">
+    <view class="selected-title">
+      已选手牌 ({{totalCount}}/14)
+    </view>
+    <view class="tile-display">
+      <block wx:for="{{selectedTiles}}" wx:key="index">
+        <view class="tile-item {{item.suit === 'jian' || item.suit === 'feng' ? 'tile-item-green' : ''}}">
+          {{item.short}}
+        </view>
+      </block>
+      <!-- 空位 -->
+      <block wx:for="{{14 - totalCount}}" wx:key="*this">
+        <view class="tile-empty"></view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 上下文选项 -->
+  <view class="context-area">
+    <view class="context-item" bindtap="onToggleSelfDraw">
+      <view class="context-label">自摸</view>
+      <view class="context-check {{isSelfDraw ? 'checked' : ''}}">
+        <text wx:if="{{isSelfDraw}}">✓</text>
+      </view>
+    </view>
+
+    <view class="context-item">
+      <view class="context-label">圈风</view>
+      <picker mode="selector" range="{{prevalentWinds}}" value="{{prevalentWindIndex}}" bindchange="onPrevalentWindChange">
+        <view class="context-picker">{{prevalentWinds[prevalentWindIndex]}}</view>
+      </picker>
+    </view>
+
+    <view class="context-item">
+      <view class="context-label">门风</view>
+      <picker mode="selector" range="{{seatWinds}}" value="{{seatWindIndex}}" bindchange="onSeatWindChange">
+        <view class="context-picker">{{seatWinds[seatWindIndex]}}</view>
+      </picker>
+    </view>
+  </view>
+
+  <!-- 牌面选择区 -->
+  <view class="tiles-grid">
+    <block wx:for="{{tileGroups}}" wx:key="name">
+      <view class="suit-group">
+        <view class="suit-label">{{item.name}}</view>
+        <view class="suit-tiles">
+          <view
+            wx:for="{{item.tiles}}"
+            wx:key="id"
+            wx:for-item="tile"
+            class="tile-selector {{tile.count > 0 ? 'selected' : ''}}"
+            data-tile-id="{{tile.id}}"
+            bindtap="onTapTile"
+            bindlongpress="onLongPressTile"
+          >
+            <view class="tile-name">{{tile.short}}</view>
+            <view class="tile-badge" wx:if="{{tile.count > 0}}">{{tile.count}}</view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 操作按钮 -->
+  <view class="action-area">
+    <button class="btn-secondary" bindtap="onClear">清空重置</button>
+    <button
+      class="btn-primary {{totalCount === 14 ? '' : 'btn-disabled'}}"
+      bindtap="onCalculate"
+      disabled="{{totalCount !== 14}}"
+    >
+      计算番数
+    </button>
+  </view>
+</view>

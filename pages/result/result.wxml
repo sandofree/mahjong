@@ -1,0 +1,60 @@
+<!-- pages/result/result.wxml -->
+<view class="container">
+  <!-- 加载状态 -->
+  <view class="loading-mask" wx:if="{{loading}}">
+    <view class="loading-spinner"></view>
+    <view class="loading-text">算番中...</view>
+  </view>
+
+  <!-- 错误状态 -->
+  <view class="error-area" wx:if="{{error}}">
+    <view class="error-icon">⚠️</view>
+    <view class="error-text">{{error}}</view>
+    <button class="btn-primary" bindtap="onGoHome">返回首页</button>
+  </view>
+
+  <!-- 正常结果 -->
+  <block wx:if="{{!loading && !error}}">
+    <!-- 手牌展示 -->
+    <view class="hand-section">
+      <view class="hand-title">胡牌手牌</view>
+      <view class="tile-display">
+        <view
+          wx:for="{{tiles}}"
+          wx:key="index"
+          class="tile-item {{item.suit === 'jian' || item.suit === 'feng' ? 'tile-item-green' : ''}}"
+        >
+          {{item.display}}
+        </view>
+      </view>
+    </view>
+
+    <!-- 总分数 -->
+    <view class="total-section">
+      <view class="total-label">总计</view>
+      <view class="total-fan">{{totalFan}} 番</view>
+      <view class="total-sub" wx:if="{{totalFan >= 8}}">✅ 达到起和标准 (8番)</view>
+      <view class="total-sub fail" wx:else>❌ 未达到起和标准 (需8番)</view>
+    </view>
+
+    <!-- 番种明细 -->
+    <view class="details-section">
+      <view class="details-title">番种明细</view>
+      <view wx:if="{{details.length === 0}}" class="empty-detail">无番种（和牌未计番）</view>
+      <view wx:for="{{details}}" wx:key="name" class="detail-item">
+        <view class="detail-header">
+          <view class="detail-name">{{item.name}}</view>
+          <view class="detail-fan">{{item.fan}} 番</view>
+        </view>
+        <view class="detail-desc">{{item.desc}}</view>
+      </view>
+    </view>
+
+    <!-- 操作按钮 -->
+    <view class="action-area">
+      <button class="btn-secondary" bindtap="onRetakePhoto">📷 重新拍照</button>
+      <button class="btn-secondary" bindtap="onModify">✋ 修改手牌</button>
+      <button class="btn-primary" bindtap="onGoHome">🏠 返回首页</button>
+    </view>
+  </block>
+</view>

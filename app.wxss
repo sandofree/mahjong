@@ -1,0 +1,122 @@
+/* 全局样式 */
+page {
+  background-color: #f5f0e8;
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Microsoft YaHei", sans-serif;
+  color: #333;
+}
+
+/* 通用容器 */
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30rpx;
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* 标题文字 */
+.main-title {
+  font-size: 44rpx;
+  font-weight: bold;
+  color: #2d5016;
+  margin-bottom: 20rpx;
+  text-align: center;
+}
+
+.sub-title {
+  font-size: 28rpx;
+  color: #666;
+  margin-bottom: 40rpx;
+  text-align: center;
+}
+
+/* 通用按钮 */
+.btn-primary {
+  width: 560rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: linear-gradient(135deg, #2d5016, #4a7c23);
+  color: #fff;
+  font-size: 34rpx;
+  font-weight: bold;
+  border-radius: 48rpx;
+  margin: 20rpx 0;
+  box-shadow: 0 4rpx 16rpx rgba(45, 80, 22, 0.3);
+}
+
+.btn-primary:active {
+  opacity: 0.85;
+  transform: scale(0.97);
+}
+
+.btn-secondary {
+  width: 560rpx;
+  height: 96rpx;
+  line-height: 96rpx;
+  text-align: center;
+  background: #fff;
+  color: #2d5016;
+  font-size: 34rpx;
+  font-weight: bold;
+  border: 3rpx solid #2d5016;
+  border-radius: 48rpx;
+  margin: 20rpx 0;
+}
+
+.btn-secondary:active {
+  background: #f0f0f0;
+}
+
+/* 牌面展示 */
+.tile-display {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8rpx;
+  padding: 20rpx;
+}
+
+.tile-item {
+  width: 68rpx;
+  height: 92rpx;
+  line-height: 92rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  background: #fffef5;
+  border: 3rpx solid #8b7355;
+  border-radius: 10rpx;
+  color: #333;
+  box-shadow: 2rpx 2rpx 6rpx rgba(0,0,0,0.15);
+}
+
+.tile-item-red {
+  color: #c0392b;
+}
+
+.tile-item-green {
+  color: #27ae60;
+}
+
+/* 加载提示 */
+.loading-mask {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.loading-text {
+  color: #fff;
+  font-size: 30rpx;
+  margin-top: 20rpx;
+}

@@ -1,0 +1,151 @@
+/* pages/result/result.wxss */
+
+/* 手牌区 */
+.hand-section {
+  width: 100%;
+  margin-bottom: 30rpx;
+}
+
+.hand-title {
+  font-size: 28rpx;
+  color: #666;
+  text-align: center;
+  margin-bottom: 16rpx;
+}
+
+/* 总分区 */
+.total-section {
+  width: 100%;
+  background: linear-gradient(135deg, #2d5016, #4a7c23);
+  border-radius: 16rpx;
+  padding: 36rpx;
+  text-align: center;
+  margin-bottom: 30rpx;
+  box-shadow: 0 4rpx 16rpx rgba(45, 80, 22, 0.3);
+}
+
+.total-label {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.7);
+  margin-bottom: 8rpx;
+}
+
+.total-fan {
+  font-size: 72rpx;
+  font-weight: bold;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.total-sub {
+  font-size: 26rpx;
+  color: rgba(255,255,255,0.8);
+  margin-top: 12rpx;
+}
+
+.total-sub.fail {
+  color: #ffcccc;
+}
+
+/* 番种明细 */
+.details-section {
+  width: 100%;
+  margin-bottom: 30rpx;
+}
+
+.details-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #2d5016;
+  margin-bottom: 16rpx;
+  padding-left: 8rpx;
+  border-left: 6rpx solid #2d5016;
+}
+
+.empty-detail {
+  text-align: center;
+  color: #999;
+  font-size: 28rpx;
+  padding: 40rpx;
+}
+
+.detail-item {
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 24rpx;
+  margin-bottom: 16rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+.detail-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8rpx;
+}
+
+.detail-name {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #333;
+}
+
+.detail-fan {
+  font-size: 32rpx;
+  font-weight: bold;
+  color: #2d5016;
+  background: #e8f5e9;
+  padding: 4rpx 20rpx;
+  border-radius: 8rpx;
+}
+
+.detail-desc {
+  font-size: 24rpx;
+  color: #888;
+  line-height: 36rpx;
+}
+
+/* 操作区 */
+.action-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 40rpx;
+}
+
+/* 错误区 */
+.error-area {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 200rpx;
+}
+
+.error-icon {
+  font-size: 80rpx;
+  margin-bottom: 30rpx;
+}
+
+.error-text {
+  font-size: 28rpx;
+  color: #999;
+  text-align: center;
+  margin-bottom: 40rpx;
+  line-height: 44rpx;
+}
+
+/* loading spinner */
+.loading-spinner {
+  width: 60rpx;
+  height: 60rpx;
+  border: 6rpx solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

@@ -1,0 +1,36 @@
+<!-- pages/index/index.wxml -->
+<view class="container">
+  <!-- Logo 区 -->
+  <view class="logo-area">
+    <view class="logo-tile">🀫</view>
+    <view class="main-title">国标麻将算番</view>
+    <view class="sub-title">胡牌后拍照识别，一秒知番数</view>
+  </view>
+
+  <!-- 按钮区 -->
+  <view class="btn-area">
+    <button class="btn-primary" bindtap="onTapCamera">
+      📷 拍照识别
+    </button>
+    <button class="btn-secondary" bindtap="onTapManual">
+      ✋ 手动输入
+    </button>
+  </view>
+
+  <!-- 说明区 -->
+  <view class="info-area">
+    <view class="info-title">使用说明</view>
+    <view class="info-item">1. 胡牌后将14张手牌整齐排列</view>
+    <view class="info-item">2. 选择「拍照识别」，对准手牌拍摄</view>
+    <view class="info-item">3. 系统自动识别牌面并计算番数</view>
+    <view class="info-item">4. 也支持「手动输入」逐张点选手牌</view>
+  </view>
+
+  <!-- 规则说明 -->
+  <view class="info-area" style="margin-top: 20rpx;">
+    <view class="info-title">计分规则</view>
+    <view class="info-item">• 基于 1998 版国标麻将规则</view>
+    <view class="info-item">• 共 81 种番种，起和标准 8 番</view>
+    <view class="info-item">• 不重复计分原则</view>
+  </view>
+</view>

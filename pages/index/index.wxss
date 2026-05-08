@@ -1,0 +1,46 @@
+/* pages/index/index.wxss */
+
+.logo-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 100rpx;
+  margin-bottom: 60rpx;
+}
+
+.logo-tile {
+  font-size: 100rpx;
+  margin-bottom: 20rpx;
+  color: #2d5016;
+  text-shadow: 2rpx 2rpx 8rpx rgba(45, 80, 22, 0.2);
+}
+
+.btn-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 60rpx;
+}
+
+.info-area {
+  width: 620rpx;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 30rpx;
+  box-shadow: 0 2rpx 12rpx rgba(0,0,0,0.06);
+}
+
+.info-title {
+  font-size: 30rpx;
+  font-weight: bold;
+  color: #2d5016;
+  margin-bottom: 16rpx;
+  border-left: 6rpx solid #2d5016;
+  padding-left: 16rpx;
+}
+
+.info-item {
+  font-size: 26rpx;
+  color: #555;
+  line-height: 44rpx;
+}

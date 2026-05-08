@@ -1,0 +1,42 @@
+<!-- pages/camera/camera.wxml -->
+<view class="camera-container">
+  <!-- 拍照模式 -->
+  <view class="camera-view" wx:if="{{!hasPhoto}}">
+    <camera
+      device-position="back"
+      flash="off"
+      binderror="onCameraError"
+      class="full-camera"
+    >
+      <!-- 取景框引导 -->
+      <view class="guide-overlay">
+        <view class="guide-frame">
+          <view class="guide-text">请将14张手牌放入框内</view>
+        </view>
+      </view>
+    </camera>
+
+    <!-- 拍照按钮 -->
+    <view class="capture-bar">
+      <view class="capture-btn" bindtap="onTakePhoto">
+        <view class="capture-inner"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 预览模式 -->
+  <view class="preview-view" wx:if="{{hasPhoto}}">
+    <image class="preview-image" src="{{photoPath}}" mode="aspectFit"></image>
+
+    <view class="preview-actions">
+      <button class="btn-retake" bindtap="onRetake">重新拍照</button>
+      <button class="btn-confirm" bindtap="onConfirm">确认识别</button>
+    </view>
+  </view>
+</view>
+
+<!-- 识别中提示 -->
+<view class="loading-mask" wx:if="{{recognizing}}">
+  <view class="loading-spinner"></view>
+  <view class="loading-text">正在识别牌面...</view>
+</view>
