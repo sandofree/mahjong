@@ -233,14 +233,9 @@ function checkJiuLianBaoDeng(count, decomp) {
   return extra === 1;
 }
 
-function checkSiGang(count, decomp) {
-  // 四杠：4个杠，每个杠由4张相同牌组成
-  // 直接从牌面计数：统计出现4张的牌种类数
-  let kongCount = 0;
-  for (let i = 0; i < 34; i++) {
-    if (count[i] === 4) kongCount++;
-  }
-  return kongCount >= 4;
+function checkSiGang(count, decomp, ctx) {
+  // 四杠：需有4个杠（补4张牌，总数18）
+  return ctx && ctx.kongCount >= 4;
 }
 
 function checkLianQiDui(count, decomp) {
@@ -312,11 +307,9 @@ function checkZiYiSe(count, decomp) {
   return true;
 }
 
-function checkSiAnKe(count, decomp) {
-  // 四个暗刻 — 四个刻子且没有吃/碰/明杠
-  // 在手牌层面：4个刻子 + 1对将，所有刻子都是暗的
-  // 这需要 context 来确认，这里简化为检查结构
-  if (!decomp) return false;
+function checkSiAnKe(count, decomp, ctx) {
+  // 四个暗刻 — 门前清时四个刻子均计为暗刻
+  if (!decomp || !ctx || !ctx.isConcealed) return false;
   return decomp.melds.every(m => m.type === 'pung') && decomp.melds.length === 4;
 }
 
@@ -379,13 +372,9 @@ function checkYiSeSiBuGao(count, decomp) {
   return true;
 }
 
-function checkSanGang(count, decomp) {
-  // 三杠：3个杠，每个杠由4张相同牌组成
-  let kongCount = 0;
-  for (let i = 0; i < 34; i++) {
-    if (count[i] === 4) kongCount++;
-  }
-  return kongCount >= 3;
+function checkSanGang(count, decomp, ctx) {
+  // 三杠：需有3个杠
+  return ctx && ctx.kongCount >= 3;
 }
 
 function checkHunYaoJiu(count, decomp) {
@@ -647,9 +636,9 @@ function checkSanTongKe(count, decomp) {
   return false;
 }
 
-function checkSanAnKe(count, decomp) {
-  // 三个暗刻 — 近似为3个刻子
-  if (!decomp) return false;
+function checkSanAnKe(count, decomp, ctx) {
+  // 三个暗刻 — 门前清时三个刻子计为暗刻
+  if (!decomp || !ctx || !ctx.isConcealed) return false;
   return decomp.melds.filter(m => m.type === 'pung').length >= 3;
 }
 
@@ -776,16 +765,15 @@ function checkShuangJianKe(count, decomp) {
   return jianPungs.length >= 2;
 }
 
-function checkShuangAnKe(count, decomp) {
-  // 两个暗刻 — 近似为2个刻子
-  if (!decomp) return false;
+function checkShuangAnKe(count, decomp, ctx) {
+  // 两个暗刻 — 门前清时两个刻子计为暗刻
+  if (!decomp || !ctx || !ctx.isConcealed) return false;
   return decomp.melds.filter(m => m.type === 'pung').length >= 2;
 }
 
 function checkBuQiuRen(count, decomp, ctx) {
-  // 门前清且自摸 — 在仅看手牌时无法判断，需要 context
-  // 这里假设手牌无吃碰明杠即满足
-  return (ctx && ctx.isSelfDraw) || false;
+  // 门前清且自摸
+  return (ctx && ctx.isConcealed && ctx.isSelfDraw) || false;
 }
 
 function checkShuangTongKe(count, decomp) {
@@ -830,19 +818,16 @@ function checkMenFengKe(count, decomp, ctx) {
   return decomp.melds.some(m => m.type === 'pung' && m.tile === targetTile);
 }
 
-function checkMingGang(count, decomp) {
-  // 明杠：有杠（4张相同牌），拍照可见，从数量推断
-  let kongCount = 0;
-  for (let i = 0; i < 34; i++) {
-    if (count[i] === 4) kongCount++;
-  }
-  return kongCount >= 1;
+function checkMingGang(count, decomp, ctx) {
+  // 明杠：有杠且非门前清（门前清时杠计为暗杠）
+  if (!ctx || ctx.kongCount < 1) return false;
+  if (ctx.isConcealed) return false;
+  return true;
 }
 
 function checkMenQianQing(count, decomp, ctx) {
-  // 门前清 — 没有吃碰明杠
-  // 在手牌层面无法判断，需要 context
-  return (ctx && ctx.isConcealed) || true; // 默认假设满足
+  // 门前清 — 没有吃碰明杠，且他家放铳（非自摸）
+  return (ctx && ctx.isConcealed && !ctx.isSelfDraw) || false;
 }
 
 function checkSiGuiYi(count, decomp) {
@@ -960,6 +945,18 @@ function checkZiMo(count, decomp, ctx) {
   return (ctx && ctx.isSelfDraw) || false;
 }
 
+function checkShuangAnGang(count, decomp, ctx) {
+  // 双暗杠 — 门前清时两个杠计为暗杠
+  if (!ctx || !ctx.isConcealed) return false;
+  return ctx.kongCount >= 2;
+}
+
+function checkAnGang(count, decomp, ctx) {
+  // 暗杠 — 门前清时杠计为暗杠
+  if (!ctx || !ctx.isConcealed) return false;
+  return ctx.kongCount >= 1;
+}
+
 // ---- 番种检查注册表 ----
 // 将 check 函数映射到 FAN_TYPES 中的 id
 const CHECK_REGISTRY = {
@@ -973,7 +970,7 @@ const CHECK_REGISTRY = {
   8:  checkXiaoSiXi,
   9:  checkXiaoSanYuan,
   10: checkZiYiSe,
-  // 11: checkSiAnKe,  // 四暗刻 — 拍照无法判断明暗，已移除
+  11: checkSiAnKe,
   12: checkYiSeShuangLongHui,
   13: checkYiSeSiTongShun,
   14: checkYiSeSiJieGao,
@@ -981,7 +978,7 @@ const CHECK_REGISTRY = {
   16: checkSanGang,
   17: checkHunYaoJiu,
   18: checkSanFengKe,
-  19: checkWuMenQi,
+  // 19: checkWuMenQi,  // 国标五门齐为6番(id=63)，停用32番项
   20: checkYiSeSanBuGao,
   21: checkQuanDaiWu,
   22: checkQuanDa,
@@ -996,7 +993,7 @@ const CHECK_REGISTRY = {
   32: checkSanSeSanTongShun,
   33: checkSanSeSanJieGao,
   34: checkSanTongKe,
-  // 35: checkSanAnKe,  // 三暗刻 — 拍照无法判断明暗，已移除
+  35: checkSanAnKe,
   36: checkSanSeSanBuGao,
   37: checkHuaLong,
   41: checkQingLong,
@@ -1007,8 +1004,14 @@ const CHECK_REGISTRY = {
   62: checkSanSeSanBuGao,
   63: checkWuMenQi,
   65: checkShuangJianKe,
-  // 66: checkShuangAnKe,  // 双暗刻 — 拍照无法判断明暗，已移除
-  // 90: 双暗刻(2番) — 同上，已移除
+  54: checkShuangAnGang,
+  66: checkShuangAnKe,
+  // 69: 双明杠 — 暂未实现
+  // 74: 双明杠 — 暂未实现
+  79: checkMenQianQing,
+  87: checkMenQianQing,
+  90: checkShuangAnKe,
+  91: checkAnGang,
   67: checkQuanDaiYao,
   68: checkBuQiuRen,
   71: checkShuangTongKe,
@@ -1066,6 +1069,10 @@ function calculateFan(tiles, ctx = {}) {
 
   const count = countTiles(tiles);
   const decomps = findAllDecompositions(tiles);
+
+  // 杠数 = 总牌数 - 14（每个杠补一张牌）
+  // 仅当 totalTiles > 14 时才确认存在杠
+  ctx = { ...ctx, kongCount: tiles.length - 14 };
 
   // 七对和十三幺之类的特殊牌型不需要拆解
   // 先检查这些特殊牌型

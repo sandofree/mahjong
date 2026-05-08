@@ -19,7 +19,7 @@ Page({
     const tiles = app.globalData.recognizedTiles || app.globalData.handTiles || [];
     const ctx = app.globalData.fanContext || {};
 
-    if (tiles.length !== 14) {
+    if (tiles.length < 14 || tiles.length > 18) {
       this.setData({
         loading: false,
         error: '未找到有效手牌数据，请重新拍照或手动输入。',
@@ -33,6 +33,7 @@ Page({
       return {
         id: tileId,
         display: tile ? tile.short : '?',
+        emoji: tile ? tile.emoji : '?',
         suit: tile ? tile.suit : '',
       };
     });

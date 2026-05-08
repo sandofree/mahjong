@@ -22,9 +22,9 @@
         <view
           wx:for="{{tiles}}"
           wx:key="index"
-          class="tile-item {{item.suit === 'jian' || item.suit === 'feng' ? 'tile-item-green' : ''}}"
+          class="tile-item tile-suit-{{item.suit}}"
         >
-          {{item.display}}
+          {{item.emoji}}
         </view>
       </view>
     </view>

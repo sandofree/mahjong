@@ -16,45 +16,45 @@ const TILE_SUITS = {
 
 // 34 种牌面
 const TILES = [
-  // 万 (0-8)
-  { id: 0,  suit: 'wan',  rank: 1, name: '一万', display: '一万', short: '1万' },
-  { id: 1,  suit: 'wan',  rank: 2, name: '二万', display: '二万', short: '2万' },
-  { id: 2,  suit: 'wan',  rank: 3, name: '三万', display: '三万', short: '3万' },
-  { id: 3,  suit: 'wan',  rank: 4, name: '四万', display: '四万', short: '4万' },
-  { id: 4,  suit: 'wan',  rank: 5, name: '五万', display: '五万', short: '5万' },
-  { id: 5,  suit: 'wan',  rank: 6, name: '六万', display: '六万', short: '6万' },
-  { id: 6,  suit: 'wan',  rank: 7, name: '七万', display: '七万', short: '7万' },
-  { id: 7,  suit: 'wan',  rank: 8, name: '八万', display: '八万', short: '8万' },
-  { id: 8,  suit: 'wan',  rank: 9, name: '九万', display: '九万', short: '9万' },
-  // 条 (9-17)
-  { id: 9,  suit: 'tiao', rank: 1, name: '一条', display: '一条', short: '1条' },
-  { id: 10, suit: 'tiao', rank: 2, name: '二条', display: '二条', short: '2条' },
-  { id: 11, suit: 'tiao', rank: 3, name: '三条', display: '三条', short: '3条' },
-  { id: 12, suit: 'tiao', rank: 4, name: '四条', display: '四条', short: '4条' },
-  { id: 13, suit: 'tiao', rank: 5, name: '五条', display: '五条', short: '5条' },
-  { id: 14, suit: 'tiao', rank: 6, name: '六条', display: '六条', short: '6条' },
-  { id: 15, suit: 'tiao', rank: 7, name: '七条', display: '七条', short: '7条' },
-  { id: 16, suit: 'tiao', rank: 8, name: '八条', display: '八条', short: '8条' },
-  { id: 17, suit: 'tiao', rank: 9, name: '九条', display: '九条', short: '9条' },
-  // 饼 (18-26)
-  { id: 18, suit: 'bing', rank: 1, name: '一饼', display: '一饼', short: '1饼' },
-  { id: 19, suit: 'bing', rank: 2, name: '二饼', display: '二饼', short: '2饼' },
-  { id: 20, suit: 'bing', rank: 3, name: '三饼', display: '三饼', short: '3饼' },
-  { id: 21, suit: 'bing', rank: 4, name: '四饼', display: '四饼', short: '4饼' },
-  { id: 22, suit: 'bing', rank: 5, name: '五饼', display: '五饼', short: '5饼' },
-  { id: 23, suit: 'bing', rank: 6, name: '六饼', display: '六饼', short: '6饼' },
-  { id: 24, suit: 'bing', rank: 7, name: '七饼', display: '七饼', short: '7饼' },
-  { id: 25, suit: 'bing', rank: 8, name: '八饼', display: '八饼', short: '8饼' },
-  { id: 26, suit: 'bing', rank: 9, name: '九饼', display: '九饼', short: '9饼' },
-  // 风 (27-30)
-  { id: 27, suit: 'feng', rank: 1, name: '东',   display: '东风', short: '东' },
-  { id: 28, suit: 'feng', rank: 2, name: '南',   display: '南风', short: '南' },
-  { id: 29, suit: 'feng', rank: 3, name: '西',   display: '西风', short: '西' },
-  { id: 30, suit: 'feng', rank: 4, name: '北',   display: '北风', short: '北' },
-  // 箭 (31-33)
-  { id: 31, suit: 'jian', rank: 1, name: '中',   display: '红中', short: '中' },
-  { id: 32, suit: 'jian', rank: 2, name: '发',   display: '发财', short: '发' },
-  { id: 33, suit: 'jian', rank: 3, name: '白',   display: '白板', short: '白' },
+  // 万 (0-8)  emoji: U+1F007 ~ U+1F00F
+  { id: 0,  suit: 'wan',  rank: 1, name: '一万', display: '一万', short: '1万', emoji: '\u{1F007}' },
+  { id: 1,  suit: 'wan',  rank: 2, name: '二万', display: '二万', short: '2万', emoji: '\u{1F008}' },
+  { id: 2,  suit: 'wan',  rank: 3, name: '三万', display: '三万', short: '3万', emoji: '\u{1F009}' },
+  { id: 3,  suit: 'wan',  rank: 4, name: '四万', display: '四万', short: '4万', emoji: '\u{1F00A}' },
+  { id: 4,  suit: 'wan',  rank: 5, name: '五万', display: '五万', short: '5万', emoji: '\u{1F00B}' },
+  { id: 5,  suit: 'wan',  rank: 6, name: '六万', display: '六万', short: '6万', emoji: '\u{1F00C}' },
+  { id: 6,  suit: 'wan',  rank: 7, name: '七万', display: '七万', short: '7万', emoji: '\u{1F00D}' },
+  { id: 7,  suit: 'wan',  rank: 8, name: '八万', display: '八万', short: '8万', emoji: '\u{1F00E}' },
+  { id: 8,  suit: 'wan',  rank: 9, name: '九万', display: '九万', short: '9万', emoji: '\u{1F00F}' },
+  // 条 (9-17)  emoji: U+1F010 ~ U+1F018
+  { id: 9,  suit: 'tiao', rank: 1, name: '一条', display: '一条', short: '1条', emoji: '\u{1F010}' },
+  { id: 10, suit: 'tiao', rank: 2, name: '二条', display: '二条', short: '2条', emoji: '\u{1F011}' },
+  { id: 11, suit: 'tiao', rank: 3, name: '三条', display: '三条', short: '3条', emoji: '\u{1F012}' },
+  { id: 12, suit: 'tiao', rank: 4, name: '四条', display: '四条', short: '4条', emoji: '\u{1F013}' },
+  { id: 13, suit: 'tiao', rank: 5, name: '五条', display: '五条', short: '5条', emoji: '\u{1F014}' },
+  { id: 14, suit: 'tiao', rank: 6, name: '六条', display: '六条', short: '6条', emoji: '\u{1F015}' },
+  { id: 15, suit: 'tiao', rank: 7, name: '七条', display: '七条', short: '7条', emoji: '\u{1F016}' },
+  { id: 16, suit: 'tiao', rank: 8, name: '八条', display: '八条', short: '8条', emoji: '\u{1F017}' },
+  { id: 17, suit: 'tiao', rank: 9, name: '九条', display: '九条', short: '9条', emoji: '\u{1F018}' },
+  // 饼 (18-26)  emoji: U+1F019 ~ U+1F021
+  { id: 18, suit: 'bing', rank: 1, name: '一饼', display: '一饼', short: '1饼', emoji: '\u{1F019}' },
+  { id: 19, suit: 'bing', rank: 2, name: '二饼', display: '二饼', short: '2饼', emoji: '\u{1F01A}' },
+  { id: 20, suit: 'bing', rank: 3, name: '三饼', display: '三饼', short: '3饼', emoji: '\u{1F01B}' },
+  { id: 21, suit: 'bing', rank: 4, name: '四饼', display: '四饼', short: '4饼', emoji: '\u{1F01C}' },
+  { id: 22, suit: 'bing', rank: 5, name: '五饼', display: '五饼', short: '5饼', emoji: '\u{1F01D}' },
+  { id: 23, suit: 'bing', rank: 6, name: '六饼', display: '六饼', short: '6饼', emoji: '\u{1F01E}' },
+  { id: 24, suit: 'bing', rank: 7, name: '七饼', display: '七饼', short: '7饼', emoji: '\u{1F01F}' },
+  { id: 25, suit: 'bing', rank: 8, name: '八饼', display: '八饼', short: '8饼', emoji: '\u{1F020}' },
+  { id: 26, suit: 'bing', rank: 9, name: '九饼', display: '九饼', short: '9饼', emoji: '\u{1F021}' },
+  // 风 (27-30)  emoji: U+1F000 ~ U+1F003
+  { id: 27, suit: 'feng', rank: 1, name: '东',   display: '东风', short: '东', emoji: '\u{1F000}' },
+  { id: 28, suit: 'feng', rank: 2, name: '南',   display: '南风', short: '南', emoji: '\u{1F001}' },
+  { id: 29, suit: 'feng', rank: 3, name: '西',   display: '西风', short: '西', emoji: '\u{1F002}' },
+  { id: 30, suit: 'feng', rank: 4, name: '北',   display: '北风', short: '北', emoji: '\u{1F003}' },
+  // 箭 (31-33)  emoji: U+1F004 ~ U+1F006
+  { id: 31, suit: 'jian', rank: 1, name: '中',   display: '红中', short: '中', emoji: '\u{1F004}' },
+  { id: 32, suit: 'jian', rank: 2, name: '发',   display: '发财', short: '发', emoji: '\u{1F005}' },
+  { id: 33, suit: 'jian', rank: 3, name: '白',   display: '白板', short: '白', emoji: '\u{1F006}' },
 ];
 
 // 便利查询
@@ -82,7 +82,7 @@ const FAN_TYPES = [
   { id: 8,  name: '小四喜',       fan: 64, desc: '其中三副风刻加一对风牌做将，另一副为面子' },
   { id: 9,  name: '小三元',       fan: 64, desc: '其中两副箭刻加一对箭牌做将，另一副为面子' },
   { id: 10, name: '字一色',       fan: 64, desc: '全部由风牌和箭牌组成' },
-  { id: 11, name: '四暗刻(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断明暗' },
+  { id: 11, name: '四暗刻',       fan: 64, desc: '四个暗刻（门前清时四个刻子均计为暗刻）' },
   { id: 12, name: '一色双龙会',   fan: 64, desc: '同花色123123 789789 + 5做将' },
   { id: 13, name: '一色四同顺',   fan: 64, desc: '同一花色四副相同的顺子' },
 
@@ -94,7 +94,7 @@ const FAN_TYPES = [
 
   // ===================== 32 番 (4种) =====================
   { id: 18, name: '三风刻',       fan: 32, desc: '三副风刻，另一副面子加一对将牌' },
-  { id: 19, name: '五门齐',       fan: 32, desc: '万、条、饼、风、箭五门，每门至少有一副面子或一对将' },
+  { id: 19, name: '五门齐(停用)', fan: 0,  desc: '国标五门齐为6番(id=63)，此32番项停用' },
   { id: 20, name: '一色三步高',   fan: 32, desc: '同一花色三副递增一位或两位的顺子' },
   { id: 21, name: '全带五',       fan: 32, desc: '每副面子及将牌均带五（5万/5条/5饼）' },
 
@@ -114,7 +114,7 @@ const FAN_TYPES = [
   { id: 32, name: '三色三同顺',   fan: 16, desc: '三种花色同一序数的顺子' },
   { id: 33, name: '三色三节高',   fan: 16, desc: '三种花色递增一位的刻子' },
   { id: 34, name: '三同刻',       fan: 16, desc: '三种花色同一序数的刻子' },
-  { id: 35, name: '三暗刻(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断明暗' },
+  { id: 35, name: '三暗刻',       fan: 16, desc: '三个暗刻（门前清时三个刻子均计为暗刻）' },
   { id: 36, name: '三色三步高',   fan: 16, desc: '三种花色递增一位的顺子' },
   { id: 37, name: '花龙',         fan: 16, desc: '三种花色依次组成123、456、789' },
   { id: 38, name: '组合龙',       fan: 16, desc: '万条饼各取不同的九张组成123456789' },
@@ -137,7 +137,7 @@ const FAN_TYPES = [
   { id: 51, name: '海底捞月',     fan: 8,  desc: '别人打出最后一张牌时和牌' },
   { id: 52, name: '杠上开花',     fan: 8,  desc: '杠后补牌自摸和牌' },
   { id: 53, name: '抢杠和',       fan: 8,  desc: '别人补杠时抢杠和牌' },
-  { id: 54, name: '双暗杠(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断明暗' },
+  { id: 54, name: '双暗杠',       fan: 8,  desc: '两个暗杠（门前清时杠均计为暗杠）' },
   { id: 55, name: '混一色',       fan: 8,  desc: '由一种花色的数牌和字牌组成' },
   { id: 56, name: '全带幺',       fan: 8,  desc: '每副面子及将牌均带有幺九牌' },
   { id: 57, name: '三色三同顺',   fan: 8,  desc: '三种花色同一序数的顺子' },
@@ -151,7 +151,7 @@ const FAN_TYPES = [
   { id: 63, name: '五门齐',       fan: 6,  desc: '五门牌皆有一副或一对' },
   { id: 64, name: '全求人',       fan: 6,  desc: '全部靠吃碰别人打出的牌，最后单钓将和牌' },
   { id: 65, name: '双箭刻',       fan: 6,  desc: '两副箭刻（或杠）' },
-  { id: 66, name: '双暗刻(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断明暗' },
+  { id: 66, name: '双暗刻',       fan: 6,  desc: '两个暗刻（门前清时两个刻子均计为暗刻）' },
   { id: 67, name: '全带幺',       fan: 6,  desc: '每副面子及将牌均带有幺九牌' },
   { id: 68, name: '不求人',       fan: 6,  desc: '门前清且自摸和牌（无吃碰杠）' },
   { id: 69, name: '双明杠',       fan: 6,  desc: '两个明杠' },
@@ -166,7 +166,7 @@ const FAN_TYPES = [
   { id: 76, name: '箭刻',         fan: 4,  desc: '一副箭刻（或杠）' },
   { id: 77, name: '圈风刻',       fan: 4,  desc: '圈风刻子' },
   { id: 78, name: '门风刻',       fan: 4,  desc: '门风刻子' },
-  { id: 79, name: '门前清(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断是否吃碰杠' },
+  { id: 79, name: '门前清',       fan: 4,  desc: '门前清（无吃碰明杠，且他家放铳）' },
   { id: 80, name: '四归一',       fan: 4,  desc: '四张相同的牌分在顺子和刻子中' },
   { id: 81, name: '双同刻',       fan: 4,  desc: '两种花色同一序数的刻子' },
 
@@ -176,11 +176,11 @@ const FAN_TYPES = [
   { id: 84, name: '箭刻',         fan: 2,  desc: '一副箭刻（或杠）' },
   { id: 85, name: '圈风刻',       fan: 2,  desc: '圈风刻子' },
   { id: 86, name: '门风刻',       fan: 2,  desc: '门风刻子' },
-  { id: 87, name: '门前清(停用)', fan: 0,  desc: '需游戏过程记录，拍照无法判断是否吃碰杠' },
+  { id: 87, name: '门前清',       fan: 2,  desc: '门前清（无吃碰明杠，且他家放铳）' },
   { id: 88, name: '四归一',       fan: 2,  desc: '四张相同的牌分在顺子和刻子（或杠）中' },
   { id: 89, name: '双同刻',       fan: 2,  desc: '两种花色同一序数的刻子' },
-  { id: 90, name: '双暗刻(停用)', fan: 0,  desc: '拍照无法判断明暗' },
-  { id: 91, name: '暗杠(停用)',   fan: 0,  desc: '需游戏过程记录，拍照无法判断明暗' },
+  { id: 90, name: '双暗刻',       fan: 2,  desc: '两个暗刻（门前清时两个刻子均计为暗刻）' },
+  { id: 91, name: '暗杠',         fan: 1,  desc: '一个暗杠（门前清时杠计为暗杠）' },
 
   // ===================== 1 番 (13种) =====================
   { id: 92,  name: '一般高',       fan: 1, desc: '同一花色两副相同的顺子' },
@@ -255,6 +255,19 @@ const FAN_EXCLUSIONS = {
   68: [103],
   73: [103],
   // 四归一 → 排除单钓将（通常）
+  // 四暗刻 → 三暗刻、双暗刻、碰碰胡、门前清
+  11: [35, 66, 90, 60, 79, 87],
+  // 三暗刻 → 双暗刻、门前清
+  35: [66, 90, 79, 87],
+  // 双暗杠 → 暗杠、明杠、门前清
+  54: [91, 97, 79, 87],
+  // 双暗刻(6番) → 双暗刻(2番)、门前清
+  66: [90, 79, 87],
+  // 不求人 → 门前清、自摸
+  68: [79, 87, 103],
+  73: [79, 87, 103],
+  // 暗杠 → 明杠、门前清
+  91: [97, 79, 87],
   // 全大/全中/全小 → 排除断幺、缺一门
   22: [83, 98, 99],
   23: [83, 98, 99],

@@ -3,16 +3,16 @@
   <!-- 已选手牌展示区 -->
   <view class="selected-area">
     <view class="selected-title">
-      已选手牌 ({{totalCount}}/14)
+      已选手牌 ({{totalCount}}/{{maxTiles}})
     </view>
     <view class="tile-display">
       <block wx:for="{{selectedTiles}}" wx:key="index">
-        <view class="tile-item {{item.suit === 'jian' || item.suit === 'feng' ? 'tile-item-green' : ''}}">
-          {{item.short}}
+        <view class="tile-item tile-suit-{{item.suit}}">
+          {{item.emoji}}
         </view>
       </block>
       <!-- 空位 -->
-      <block wx:for="{{14 - totalCount}}" wx:key="*this">
+      <block wx:for="{{maxTiles - totalCount}}" wx:key="*this">
         <view class="tile-empty"></view>
       </block>
     </view>
@@ -24,6 +24,13 @@
       <view class="context-label">自摸</view>
       <view class="context-check {{isSelfDraw ? 'checked' : ''}}">
         <text wx:if="{{isSelfDraw}}">✓</text>
+      </view>
+    </view>
+
+    <view class="context-item" bindtap="onToggleConcealed">
+      <view class="context-label">门前清</view>
+      <view class="context-check {{isConcealed ? 'checked' : ''}}">
+        <text wx:if="{{isConcealed}}">✓</text>
       </view>
     </view>
 
@@ -52,12 +59,12 @@
             wx:for="{{item.tiles}}"
             wx:key="id"
             wx:for-item="tile"
-            class="tile-selector {{tile.count > 0 ? 'selected' : ''}}"
+            class="tile-selector {{tile.colorClass}} {{tile.count > 0 ? 'selected' : ''}}"
             data-tile-id="{{tile.id}}"
             bindtap="onTapTile"
             bindlongpress="onLongPressTile"
           >
-            <view class="tile-name">{{tile.short}}</view>
+            <view class="tile-name">{{tile.emoji}}</view>
             <view class="tile-badge" wx:if="{{tile.count > 0}}">{{tile.count}}</view>
           </view>
         </view>
@@ -67,13 +74,13 @@
 
   <!-- 操作按钮 -->
   <view class="action-area">
-    <button class="btn-secondary" bindtap="onClear">清空重置</button>
     <button
-      class="btn-primary {{totalCount === 14 ? '' : 'btn-disabled'}}"
+      class="btn-primary {{totalCount >= 14 ? '' : 'btn-disabled'}}"
       bindtap="onCalculate"
-      disabled="{{totalCount !== 14}}"
+      disabled="{{totalCount < 14}}"
     >
       计算番数
     </button>
+    <button class="btn-secondary" bindtap="onClear">清空重置</button>
   </view>
 </view>

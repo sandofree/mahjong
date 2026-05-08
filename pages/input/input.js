@@ -9,12 +9,15 @@ Page({
     tileCounts: new Array(34).fill(0),
     // 总选中张数
     totalCount: 0,
+    // 当前允许的最大张数 (14 + 杠数)
+    maxTiles: 14,
     // 选中的牌面列表（按顺序）
     selectedTiles: [],
     // 牌面分组数据
     tileGroups: [],
     // 上下文选项
     isSelfDraw: false,
+    isConcealed: false,     // 门前清
     prevalentWindIndex: 0,  // 0=东,1=南,2=西,3=北
     seatWindIndex: 0,
     prevalentWinds: ['东', '南', '西', '北'],
@@ -44,8 +47,9 @@ Page({
           id: tile.id,
           display: tile.display,
           short: tile.short,
+          emoji: tile.emoji,
           count: 0,
-          colorClass: tile.suit === 'jian' || tile.suit === 'feng' ? 'tile-item-green' : ''
+          colorClass: 'tile-suit-' + tile.suit
         });
       }
     }
@@ -63,22 +67,34 @@ Page({
     if ((currentCount + 1) > 4) {
       currentCount = 0;
     } else {
-      // 检查总张数不能超过14
-      if (this.data.totalCount >= 14 && currentCount < 4) {
-        // 但如果是从0开始且已达14，不允许
-        if (counts[tileId] < 4 && this.data.totalCount >= 14) {
-          wx.showToast({ title: '最多14张牌', icon: 'none', duration: 1000 });
-          return;
-        }
+      // 计算当前杠数和允许的最大张数
+      const nextCount = currentCount + 1;
+      const tempCounts = [...counts];
+      tempCounts[tileId] = nextCount;
+      let kongCount = 0;
+      for (let i = 0; i < 34; i++) {
+        if (tempCounts[i] === 4) kongCount++;
       }
-      currentCount++;
+      const maxTiles = 14 + kongCount;
+      let tempTotal = 0;
+      for (const c of tempCounts) tempTotal += c;
+
+      if (tempTotal > maxTiles) {
+        wx.showToast({ title: `最多${maxTiles}张牌`, icon: 'none', duration: 1000 });
+        return;
+      }
+      currentCount = nextCount;
     }
 
     counts[tileId] = currentCount;
 
-    // 重新计算总张数和选中列表
+    // 重新计算总张数、杠数和选中列表
     let totalCount = 0;
-    for (const c of counts) totalCount += c;
+    let kongCount = 0;
+    for (let i = 0; i < 34; i++) {
+      totalCount += counts[i];
+      if (counts[i] === 4) kongCount++;
+    }
 
     // 构建选中牌列表
     const selectedTiles = [];
@@ -97,6 +113,7 @@ Page({
     this.setData({
       tileCounts: counts,
       totalCount,
+      maxTiles: 14 + kongCount,
       selectedTiles,
       tileGroups,
     });
@@ -111,7 +128,11 @@ Page({
     }
 
     let totalCount = 0;
-    for (const c of counts) totalCount += c;
+    let kongCount = 0;
+    for (let i = 0; i < 34; i++) {
+      totalCount += counts[i];
+      if (counts[i] === 4) kongCount++;
+    }
 
     const selectedTiles = [];
     for (let i = 0; i < 34; i++) {
@@ -128,6 +149,7 @@ Page({
     this.setData({
       tileCounts: counts,
       totalCount,
+      maxTiles: 14 + kongCount,
       selectedTiles,
       tileGroups,
     });
@@ -138,6 +160,7 @@ Page({
     this.setData({
       tileCounts: new Array(34).fill(0),
       totalCount: 0,
+      maxTiles: 14,
       selectedTiles: [],
     });
     this.buildTileGroups();
@@ -146,6 +169,11 @@ Page({
   // 切换自摸
   onToggleSelfDraw() {
     this.setData({ isSelfDraw: !this.data.isSelfDraw });
+  },
+
+  // 切换门前清
+  onToggleConcealed() {
+    this.setData({ isConcealed: !this.data.isConcealed });
   },
 
   // 选择圈风
@@ -160,9 +188,9 @@ Page({
 
   // 计算番数
   onCalculate() {
-    if (this.data.totalCount !== 14) {
+    if (this.data.totalCount < 14 || this.data.totalCount > 18) {
       wx.showToast({
-        title: `还剩 ${14 - this.data.totalCount} 张牌需要选择`,
+        title: '请选择14-18张牌',
         icon: 'none',
         duration: 2000,
       });
@@ -180,6 +208,7 @@ Page({
     // 构建上下文
     const ctx = {
       isSelfDraw: this.data.isSelfDraw,
+      isConcealed: this.data.isConcealed,
       prevalentWind: this.data.prevalentWinds[this.data.prevalentWindIndex],
       seatWind: this.data.seatWinds[this.data.seatWindIndex],
     };

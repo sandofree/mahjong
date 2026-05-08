@@ -35,8 +35,11 @@ page {
 .btn-primary {
   width: 560rpx;
   height: 96rpx;
-  line-height: 96rpx;
-  text-align: center;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, #2d5016, #4a7c23);
   color: #fff;
   font-size: 34rpx;
@@ -54,8 +57,11 @@ page {
 .btn-secondary {
   width: 560rpx;
   height: 96rpx;
-  line-height: 96rpx;
-  text-align: center;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #fff;
   color: #2d5016;
   font-size: 34rpx;
@@ -79,25 +85,24 @@ page {
 }
 
 .tile-item {
-  width: 68rpx;
-  height: 92rpx;
-  line-height: 92rpx;
+  width: 48rpx;
+  height: 56rpx;
+  line-height: 56rpx;
   text-align: center;
-  font-size: 28rpx;
-  font-weight: bold;
-  background: #fffef5;
-  border: 3rpx solid #8b7355;
-  border-radius: 10rpx;
-  color: #333;
-  box-shadow: 2rpx 2rpx 6rpx rgba(0,0,0,0.15);
+  font-size: 44rpx;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  box-shadow: none;
 }
 
-.tile-item-red {
-  color: #c0392b;
-}
-
-.tile-item-green {
-  color: #27ae60;
+.tile-suit-wan.tile-item,
+.tile-suit-tiao.tile-item,
+.tile-suit-bing.tile-item,
+.tile-suit-feng.tile-item,
+.tile-suit-jian.tile-item {
+  background: transparent;
+  border: none;
 }
 
 /* 加载提示 */
