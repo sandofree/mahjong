@@ -6,7 +6,7 @@ App({
     try {
       if (wx.cloud) {
         wx.cloud.init({
-          env: 'mahjong-fan-0g00000000000000',
+          env: 'sando-mini-d9g53jlm6c70b6f25',
           traceUser: true,
         });
       }

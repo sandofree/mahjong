@@ -102,8 +102,11 @@
 .btn-retake {
   width: 240rpx;
   height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: #555;
   color: #fff;
   font-size: 30rpx;
@@ -114,8 +117,11 @@
 .btn-confirm {
   width: 240rpx;
   height: 80rpx;
-  line-height: 80rpx;
-  text-align: center;
+  line-height: 1;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: linear-gradient(135deg, #2d5016, #4a7c23);
   color: #fff;
   font-size: 30rpx;
@@ -132,6 +138,19 @@
   border-top-color: #fff;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
+}
+
+.loading-sub {
+  color: #fff;
+  font-size: 26rpx;
+  margin-top: 12rpx;
+  opacity: 0.85;
+}
+
+.loading-tip {
+  color: rgba(255,255,255,0.6);
+  font-size: 22rpx;
+  margin-top: 8rpx;
 }
 
 @keyframes spin {

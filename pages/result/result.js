@@ -7,6 +7,7 @@ Page({
   data: {
     tiles: [],           // 展示用的牌面数据
     handTileIds: [],     // 原始 tileId 数组
+    flowers: [],         // 选中的花牌
     totalFan: 0,
     details: [],         // [{name, fan, desc}]
     source: '',          // 'camera' | 'input'
@@ -41,6 +42,7 @@ Page({
     this.setData({
       tiles: displayTiles,
       handTileIds: tiles,
+      flowers: ctx.flowers || [],
       source,
     });
 

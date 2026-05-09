@@ -60,24 +60,27 @@ function findAllDecompositions(tiles) {
 
   const rawCount = countTiles(tiles);
 
-  // 识别杠：统计有四张的牌种类数
-  let kongCount = 0;
-  for (let i = 0; i < 34; i++) {
-    if (rawCount[i] === 4) kongCount++;
-  }
-
-  // 牌数必须与杠数匹配：总牌数 = 14 + kongCount
-  if (totalTiles !== 14 + kongCount) return [];
-
-  // 将杠还原为刻子（4张→3张），使剩余牌可正常拆解为14张
-  const count = [...rawCount];
-  for (let i = 0; i < 34; i++) {
-    if (count[i] === 4) count[i] = 3;
+  // 14张时不视为含杠（4张相同牌可拆为3+1分散在刻顺中）
+  // 大于14张时，多出的部分必须由杠补齐：totalTiles === 14 + kongCount
+  let count;
+  if (totalTiles === 14) {
+    count = [...rawCount];
+  } else {
+    let kongCount = 0;
+    for (let i = 0; i < 34; i++) {
+      if (rawCount[i] === 4) kongCount++;
+    }
+    if (totalTiles !== 14 + kongCount) return [];
+    // 将杠还原为刻子（4张→3张），使剩余牌可正常拆解为14张
+    count = [...rawCount];
+    for (let i = 0; i < 34; i++) {
+      if (count[i] === 4) count[i] = 3;
+    }
   }
 
   const results = [];
 
-  // 尝试每种可能的将牌（基于还原后的14张）
+  // 尝试每种可能的将牌
   for (let i = 0; i < 34; i++) {
     if (count[i] >= 2) {
       count[i] -= 2;
@@ -1074,6 +1077,22 @@ function calculateFan(tiles, ctx = {}) {
   // 仅当 totalTiles > 14 时才确认存在杠
   ctx = { ...ctx, kongCount: tiles.length - 14 };
 
+  // 合法性检查：必须满足以下三种之一才是合法和牌
+  //   1) 标准型 (1对将 + 4面子) — findAllDecompositions 返回非空
+  //   2) 七对 — 14张恰为7个对子
+  //   3) 十三幺 — 13种幺九各1张 + 任一张做将
+  // 否则视为诈胡，0番
+  const isQiDui = checkQiDui(count, null);
+  const isShiSanYao = checkShiSanYao(count, null);
+  const hasStandardDecomp = decomps.length > 0;
+  if (!hasStandardDecomp && !isQiDui && !isShiSanYao) {
+    return {
+      totalFan: 0,
+      details: [],
+      error: '诈胡：手牌无法构成合法的胡牌结构（4面子1将 / 七对 / 十三幺）',
+    };
+  }
+
   // 七对和十三幺之类的特殊牌型不需要拆解
   // 先检查这些特殊牌型
 
@@ -1129,6 +1148,19 @@ function calculateFan(tiles, ctx = {}) {
     bestResult = {
       totalFan: qiduiFan ? qiduiFan.fan : 24,
       details: [{ name: '七对', fan: qiduiFan ? qiduiFan.fan : 24, desc: '七个对子' }]
+    };
+  }
+
+  // 花牌加番：每张花牌1番（不参与拆解，独立计算）
+  const flowerCount = (ctx && ctx.flowerCount) || 0;
+  if (flowerCount > 0 && bestResult.totalFan > 0) {
+    bestResult = {
+      ...bestResult,
+      totalFan: bestResult.totalFan + flowerCount,
+      details: [
+        ...bestResult.details,
+        { name: '花牌', fan: flowerCount, desc: `${flowerCount}张花牌，每张计1番` },
+      ],
     };
   }
 

@@ -22,6 +22,45 @@
   background: rgba(255,255,255,0.5);
 }
 
+/* 已选手牌区域：放大尺寸 + 删除按钮 */
+.tile-item-large {
+  width: 80rpx !important;
+  height: 100rpx !important;
+  line-height: 100rpx !important;
+  font-size: 76rpx !important;
+  position: relative;
+}
+
+.tile-empty-large {
+  width: 80rpx;
+  height: 100rpx;
+  border: 2rpx dashed #ccc;
+  border-radius: 8rpx;
+  background: rgba(255,255,255,0.5);
+}
+
+.tile-delete {
+  position: absolute;
+  top: -12rpx;
+  right: -12rpx;
+  width: 36rpx;
+  height: 36rpx;
+  line-height: 32rpx;
+  text-align: center;
+  font-size: 28rpx;
+  font-weight: bold;
+  color: #fff;
+  background: #c0392b;
+  border-radius: 50%;
+  box-shadow: 0 2rpx 6rpx rgba(0,0,0,0.25);
+  z-index: 2;
+}
+
+.tile-delete:active {
+  transform: scale(0.85);
+  opacity: 0.8;
+}
+
 /* 上下文区域 */
 .context-area {
   width: 100%;
@@ -74,6 +113,62 @@
   background: #fafafa;
 }
 
+/* 花牌区域 */
+.flower-area {
+  width: 100%;
+  background: #fff;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  margin-bottom: 24rpx;
+  box-shadow: 0 2rpx 8rpx rgba(0,0,0,0.06);
+}
+
+.flower-title {
+  font-size: 26rpx;
+  color: #2d5016;
+  font-weight: bold;
+  margin-bottom: 12rpx;
+  padding-left: 8rpx;
+  border-left: 4rpx solid #2d5016;
+}
+
+.flower-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 4rpx;
+  justify-content: space-between;
+}
+
+.flower-item {
+  width: 72rpx;
+  height: 84rpx;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  border: 1rpx solid #e0d4b8;
+  border-radius: 6rpx;
+  background: #fafafa;
+  transition: all 0.15s;
+}
+
+.flower-selected {
+  background: rgba(45, 80, 22, 0.12);
+  border-color: #2d5016;
+  border-width: 2rpx;
+}
+
+.flower-emoji {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.flower-name {
+  font-size: 18rpx;
+  color: #555;
+  margin-top: 2rpx;
+}
+
 /* 牌面选择网格 */
 .tiles-grid {
   width: 100%;
@@ -100,12 +195,12 @@
 .suit-tiles {
   display: flex;
   flex-wrap: wrap;
-  gap: 4rpx;
+  gap: 0;
 }
 
 .tile-selector {
-  width: 68rpx;
-  height: 80rpx;
+  width: 72rpx;
+  height: 84rpx;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -128,7 +223,7 @@
 }
 
 .tile-name {
-  font-size: 56rpx;
+  font-size: 72rpx;
   line-height: 1;
 }
 

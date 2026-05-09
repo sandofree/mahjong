@@ -221,6 +221,74 @@ test('九莲宝灯 (无明杠)',
   88,
   ['九莲宝灯']
 );
+
+// 20. 诈胡：14张牌但无法构成 4面子+1将 / 七对 / 十三幺
+// 例如：3万x2, 5万x2, 7万x2, 9万x2, 1条x2, 3条x2, 5条 (15张...先简化为14)
+// 真正诈胡：1万,2万,4万,5万,7万,8万,1条,2条,3条,5条,7条,9条,1饼,3饼 — 没对子无法构成将
+console.log('\n--- 诈胡测试 (无对子) ---');
+{
+  const tiles = [0,1,3,4,6,7, 9,10,11,13,15,17, 18,20];
+  const result = M.calculateFan(tiles, {});
+  console.log('手牌:', tiles.map(t => C.TILES[t].short).join(' '));
+  console.log(`总分: ${result.totalFan} 番`, result.error ? `错误: ${result.error}` : '');
+  if (result.totalFan === 0 && result.error) {
+    console.log('✅ 通过 — 正确识别诈胡');
+    passed++;
+  } else {
+    console.log('❌ 应识别为诈胡');
+    failed++;
+  }
+}
+
+// 21. 诈胡：14张牌但拆不成有效面子
+// 例如：1万x2 + 3万x2 + 5万x2 + 7万x2 + 9万x2 + 字牌不成对
+console.log('\n--- 诈胡测试 (面子不齐) ---');
+{
+  // 将 + 3顺子 + 散牌（无法成第4面子）
+  const tiles = [0,0, 1,2,3, 4,5,6, 7,8, 9,11,13,15];
+  const result = M.calculateFan(tiles, {});
+  console.log('手牌:', tiles.map(t => C.TILES[t].short).join(' '));
+  console.log(`总分: ${result.totalFan} 番`, result.error ? `错误: ${result.error}` : '');
+  if (result.totalFan === 0 && result.error) {
+    console.log('✅ 通过 — 正确识别诈胡');
+    passed++;
+  } else {
+    console.log('❌ 应识别为诈胡');
+    failed++;
+  }
+}
+
+// 22. 诈胡：模型识别错乱的牌
+console.log('\n--- 诈胡测试 (随机散牌) ---');
+{
+  const tiles = [0,2,4,6,8, 9,11,13,15,17, 18,20,22,24];
+  const result = M.calculateFan(tiles, {});
+  console.log('手牌:', tiles.map(t => C.TILES[t].short).join(' '));
+  console.log(`总分: ${result.totalFan} 番`, result.error ? `错误: ${result.error}` : '');
+  if (result.totalFan === 0 && result.error) {
+    console.log('✅ 通过 — 正确识别诈胡');
+    passed++;
+  } else {
+    console.log('❌ 应识别为诈胡');
+    failed++;
+  }
+}
+
+// 23. 边界：合法的"全顺"牌但有对子做将（不应误判为诈胡）
+console.log('\n--- 合法边界 (清一色顺子+将) ---');
+{
+  const tiles = [0,1,2, 3,4,5, 6,7,8, 0,1,2, 4,4];
+  const result = M.calculateFan(tiles, {});
+  console.log('手牌:', tiles.map(t => C.TILES[t].short).join(' '));
+  console.log(`总分: ${result.totalFan} 番`);
+  if (result.totalFan > 0 && !result.error) {
+    console.log('✅ 通过 — 合法手牌正确算出番数');
+    passed++;
+  } else {
+    console.log('❌ 不应判诈胡');
+    failed++;
+  }
+}
 // 验证不应有"明杠"
 const jiuLianResult = M.calculateFan([0,0,0,0,1,2,3,4,5,6,7,8,8,8], {});
 const hasMingGang = jiuLianResult.details.some(d => d.name === '明杠');

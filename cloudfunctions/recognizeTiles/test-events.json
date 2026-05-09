@@ -1,0 +1,48 @@
+{
+  "_说明_": [
+    "云函数 recognizeTiles 测试模板。",
+    "在微信开发者工具：云开发 → 云函数 → recognizeTiles → 右键 → 云端测试，把下方任一组 JSON 粘贴到「请求参数」。",
+    "每次只粘贴其中一组（带 fileID 或 imageUrl 的对象），不要把整个文件贴进去。",
+    "云函数现在同时支持两种入参：fileID（云存储路径）或 imageUrl（公网可访问的 https 图片）。"
+  ],
+
+  "用例1_直接传公网图片URL": {
+    "imageUrl": "https://your-domain.com/mahjong-test.jpg"
+  },
+
+  "用例2_传云存储fileID": {
+    "fileID": "cloud://your-env-id.your-bucket/mahjong-photos/test.jpg"
+  },
+
+  "用例3_缺少参数_应返回错误": {},
+
+  "用例4_无效fileID_应返回获取URL失败": {
+    "fileID": "cloud://nonexistent-env.invalid-bucket/path/notexist.jpg"
+  },
+
+  "用例5_无效图片URL_应返回模型识别异常": {
+    "imageUrl": "https://example.com/this-is-not-a-mahjong-image.jpg"
+  },
+
+  "成功响应示例": {
+    "tiles": [0, 0, 0, 6, 6, 6, 31, 31, 31, 28, 28, 28, 1, 1]
+  },
+
+  "失败响应示例": {
+    "error": "识别到 12 张牌，应为 14-18 张。请重拍后再试。",
+    "tiles": [0, 0, 0, 6, 6, 6, 31, 31, 31, 1, 1, 1]
+  },
+
+  "未配置APIKey响应示例": {
+    "tiles": [0, 0, 0, 6, 6, 6, 31, 31, 31, 28, 28, 28, 1, 1],
+    "mock": true
+  },
+
+  "tileId对照表": {
+    "万": "0=一万, 1=二万, ..., 8=九万",
+    "条": "9=一条, 10=二条, ..., 17=九条",
+    "饼": "18=一饼, 19=二饼, ..., 26=九饼",
+    "风": "27=东, 28=南, 29=西, 30=北",
+    "箭": "31=中, 32=发, 33=白"
+  }
+}

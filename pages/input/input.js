@@ -22,12 +22,65 @@ Page({
     seatWindIndex: 0,
     prevalentWinds: ['东', '南', '西', '北'],
     seatWinds: ['东', '南', '西', '北'],
+    // 花牌选择 (8个: 春夏秋冬梅兰菊竹)
+    flowers: [
+      { name: '春', emoji: '🌸', selected: false },
+      { name: '夏', emoji: '☀️', selected: false },
+      { name: '秋', emoji: '🍂', selected: false },
+      { name: '冬', emoji: '❄️', selected: false },
+      { name: '梅', emoji: '🌺', selected: false },
+      { name: '兰', emoji: '🪷', selected: false },
+      { name: '菊', emoji: '🌼', selected: false },
+      { name: '竹', emoji: '🎍', selected: false },
+    ],
+    flowerCount: 0,
     // 计算结果
     resultReady: false,
   },
 
-  onLoad() {
+  onLoad(options) {
     this.buildTileGroups();
+
+    // 拍照识别后跳转过来的，预填手牌（识别 6-18 张都允许，不足 14 张时用户在页面里继续补齐）
+    if (options && options.prefill === '1') {
+      const recognized = app.globalData.recognizedTiles || [];
+      if (recognized.length >= 6 && recognized.length <= 18) {
+        const counts = new Array(34).fill(0);
+        for (const id of recognized) {
+          if (id >= 0 && id < 34) counts[id]++;
+        }
+        // 万一某些牌单类被识别成超过 4 张（模型偶发错误），截断到 4
+        for (let i = 0; i < 34; i++) {
+          if (counts[i] > 4) counts[i] = 4;
+        }
+        let totalCount = 0;
+        let kongCount = 0;
+        for (let i = 0; i < 34; i++) {
+          totalCount += counts[i];
+          if (counts[i] === 4) kongCount++;
+        }
+        const C2 = require('../../utils/constants');
+        const selectedTiles = [];
+        for (let i = 0; i < 34; i++) {
+          for (let j = 0; j < counts[i]; j++) selectedTiles.push(C2.TILES[i]);
+        }
+        const tileGroups = this.data.tileGroups.map(g => ({
+          ...g,
+          tiles: g.tiles.map(t => ({ ...t, count: counts[t.id] })),
+        }));
+        this.setData({
+          tileCounts: counts,
+          totalCount,
+          maxTiles: Math.max(14, 14 + kongCount),
+          selectedTiles,
+          tileGroups,
+        });
+        const tip = totalCount < 14
+          ? `识别到 ${totalCount} 张，请补足到 14 张`
+          : '已填入识别结果，请核对';
+        wx.showToast({ title: tip, icon: 'none', duration: 2200 });
+      }
+    }
   },
 
   // 构建牌面分组数据
@@ -119,9 +172,20 @@ Page({
     });
   },
 
-  // 长按减少计数
+  // 长按选牌器减少计数
   onLongPressTile(e) {
     const tileId = e.currentTarget.dataset.tileId;
+    this.decrementTile(tileId);
+  },
+
+  // 点击已选牌右上角的删除按钮
+  onDeleteSelected(e) {
+    const tileId = e.currentTarget.dataset.tileId;
+    this.decrementTile(tileId);
+  },
+
+  // 减一张某种牌
+  decrementTile(tileId) {
     const counts = [...this.data.tileCounts];
     if (counts[tileId] > 0) {
       counts[tileId]--;
@@ -162,6 +226,8 @@ Page({
       totalCount: 0,
       maxTiles: 14,
       selectedTiles: [],
+      flowers: this.data.flowers.map(f => ({ ...f, selected: false })),
+      flowerCount: 0,
     });
     this.buildTileGroups();
   },
@@ -174,6 +240,16 @@ Page({
   // 切换门前清
   onToggleConcealed() {
     this.setData({ isConcealed: !this.data.isConcealed });
+  },
+
+  // 切换花牌
+  onToggleFlower(e) {
+    const idx = e.currentTarget.dataset.idx;
+    const flowers = this.data.flowers.map((f, i) =>
+      i === idx ? { ...f, selected: !f.selected } : f
+    );
+    const flowerCount = flowers.filter(f => f.selected).length;
+    this.setData({ flowers, flowerCount });
   },
 
   // 选择圈风
@@ -209,6 +285,8 @@ Page({
     const ctx = {
       isSelfDraw: this.data.isSelfDraw,
       isConcealed: this.data.isConcealed,
+      flowerCount: this.data.flowerCount,
+      flowers: this.data.flowers.filter(f => f.selected).map(f => ({ name: f.name, emoji: f.emoji })),
       prevalentWind: this.data.prevalentWinds[this.data.prevalentWindIndex],
       seatWind: this.data.seatWinds[this.data.seatWindIndex],
     };

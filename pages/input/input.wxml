@@ -7,13 +7,18 @@
     </view>
     <view class="tile-display">
       <block wx:for="{{selectedTiles}}" wx:key="index">
-        <view class="tile-item tile-suit-{{item.suit}}">
+        <view class="tile-item tile-item-large tile-suit-{{item.suit}}">
           {{item.emoji}}
+          <view
+            class="tile-delete"
+            catchtap="onDeleteSelected"
+            data-tile-id="{{item.id}}"
+          >×</view>
         </view>
       </block>
       <!-- 空位 -->
       <block wx:for="{{maxTiles - totalCount}}" wx:key="*this">
-        <view class="tile-empty"></view>
+        <view class="tile-empty tile-empty-large"></view>
       </block>
     </view>
   </view>
@@ -46,6 +51,24 @@
       <picker mode="selector" range="{{seatWinds}}" value="{{seatWindIndex}}" bindchange="onSeatWindChange">
         <view class="context-picker">{{seatWinds[seatWindIndex]}}</view>
       </picker>
+    </view>
+  </view>
+
+  <!-- 花牌选择区 -->
+  <view class="flower-area">
+    <view class="flower-title">花</view>
+    <view class="flower-list">
+      <view
+        wx:for="{{flowers}}"
+        wx:key="name"
+        wx:for-index="idx"
+        class="flower-item {{item.selected ? 'flower-selected' : ''}}"
+        data-idx="{{idx}}"
+        bindtap="onToggleFlower"
+      >
+        <view class="flower-emoji">{{item.emoji}}</view>
+        <view class="flower-name">{{item.name}}</view>
+      </view>
     </view>
   </view>
 

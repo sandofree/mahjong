@@ -13,6 +13,57 @@
   margin-bottom: 16rpx;
 }
 
+/* 结果页手牌放大 */
+.result-tile-display {
+  gap: 2rpx !important;
+  padding: 12rpx 8rpx !important;
+  flex-wrap: wrap;
+}
+
+.result-tile-item {
+  width: 76rpx !important;
+  height: 92rpx !important;
+  line-height: 92rpx !important;
+  font-size: 76rpx !important;
+}
+
+/* 选中花牌 */
+.flower-display {
+  margin-top: 20rpx;
+  display: flex;
+  justify-content: center;
+}
+
+.flower-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8rpx;
+  justify-content: center;
+}
+
+.flower-chip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 72rpx;
+  height: 88rpx;
+  background: #fffaeb;
+  border: 2rpx solid #d4c56a;
+  border-radius: 8rpx;
+}
+
+.flower-chip-emoji {
+  font-size: 36rpx;
+  line-height: 1;
+}
+
+.flower-chip-name {
+  font-size: 18rpx;
+  color: #7d6608;
+  margin-top: 2rpx;
+}
+
 /* 总分区 */
 .total-section {
   width: 100%;

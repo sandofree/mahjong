@@ -38,5 +38,7 @@
 <!-- 识别中提示 -->
 <view class="loading-mask" wx:if="{{recognizing}}">
   <view class="loading-spinner"></view>
-  <view class="loading-text">正在识别牌面...</view>
+  <view class="loading-text">AI 识别中...</view>
+  <view class="loading-sub">正在分析牌面，请稍候 {{recognizingSeconds}} 秒</view>
+  <view class="loading-tip">大模型识别约需 5-15 秒</view>
 </view>

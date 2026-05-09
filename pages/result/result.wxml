@@ -15,20 +15,6 @@
 
   <!-- 正常结果 -->
   <block wx:if="{{!loading && !error}}">
-    <!-- 手牌展示 -->
-    <view class="hand-section">
-      <view class="hand-title">胡牌手牌</view>
-      <view class="tile-display">
-        <view
-          wx:for="{{tiles}}"
-          wx:key="index"
-          class="tile-item tile-suit-{{item.suit}}"
-        >
-          {{item.emoji}}
-        </view>
-      </view>
-    </view>
-
     <!-- 总分数 -->
     <view class="total-section">
       <view class="total-label">总计</view>
@@ -47,6 +33,32 @@
           <view class="detail-fan">{{item.fan}} 番</view>
         </view>
         <view class="detail-desc">{{item.desc}}</view>
+      </view>
+    </view>
+
+    <!-- 手牌展示 -->
+    <view class="hand-section">
+      <view class="hand-title">胡牌手牌</view>
+      <view class="tile-display result-tile-display">
+        <view
+          wx:for="{{tiles}}"
+          wx:key="index"
+          class="tile-item result-tile-item tile-suit-{{item.suit}}"
+        >
+          {{item.emoji}}
+        </view>
+      </view>
+      <view class="flower-display" wx:if="{{flowers.length > 0}}">
+        <view class="flower-row">
+          <view
+            wx:for="{{flowers}}"
+            wx:key="name"
+            class="flower-chip"
+          >
+            <view class="flower-chip-emoji">{{item.emoji}}</view>
+            <view class="flower-chip-name">{{item.name}}</view>
+          </view>
+        </view>
       </view>
     </view>
 
