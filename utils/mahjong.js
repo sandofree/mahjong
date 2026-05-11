@@ -646,23 +646,28 @@ function checkSanAnKe(count, decomp, ctx) {
 }
 
 function checkSanSeSanBuGao(count, decomp) {
-  // 三种花色递增一位的顺子（如1万2条3饼，2万3条4饼...）
+  // 三种花色递增一位的顺子（如123万、234条、345饼，花色任意排列）
   if (!decomp) return false;
   const chows = decomp.melds.filter(m => m.type === 'chow');
   if (chows.length < 3) return false;
   
-  const suits = ['wan', 'tiao', 'bing'];
+  const bases = { wan: 0, tiao: 9, bing: 18 };
+  const suitPerms = [
+    ['wan', 'tiao', 'bing'],
+    ['wan', 'bing', 'tiao'],
+    ['tiao', 'wan', 'bing'],
+    ['tiao', 'bing', 'wan'],
+    ['bing', 'wan', 'tiao'],
+    ['bing', 'tiao', 'wan'],
+  ];
+  
   for (let startRank = 1; startRank <= 7; startRank++) {
-    const bases = { wan: 0, tiao: 9, bing: 18 };
-    let found = true;
-    for (let i = 0; i < 3; i++) {
-      const tileId = bases[suits[i]] + startRank - 1 + i;
-      if (!chows.some(c => c.start === tileId)) {
-        found = false;
-        break;
+    for (const perm of suitPerms) {
+      const tileIds = perm.map((s, i) => bases[s] + startRank - 1 + i);
+      if (tileIds.every(t => chows.some(c => c.start === t))) {
+        return true;
       }
     }
-    if (found) return true;
   }
   return false;
 }
@@ -961,8 +966,9 @@ function checkAnGang(count, decomp, ctx) {
 }
 
 // ---- 番种检查注册表 ----
-// 将 check 函数映射到 FAN_TYPES 中的 id
+// 将 check 函数映射到 FAN_TYPES 中的 id (国标 1998 唯一 id 体系)
 const CHECK_REGISTRY = {
+  // 88番
   1:  checkDaSiXi,
   2:  checkDaSanYuan,
   3:  checkLvYiSe,
@@ -970,77 +976,108 @@ const CHECK_REGISTRY = {
   5:  checkSiGang,
   6:  checkLianQiDui,
   7:  checkShiSanYao,
-  8:  checkXiaoSiXi,
-  9:  checkXiaoSanYuan,
-  10: checkZiYiSe,
-  11: checkSiAnKe,
-  12: checkYiSeShuangLongHui,
-  13: checkYiSeSiTongShun,
-  14: checkYiSeSiJieGao,
-  15: checkYiSeSiBuGao,
-  16: checkSanGang,
-  17: checkHunYaoJiu,
-  18: checkSanFengKe,
-  // 19: checkWuMenQi,  // 国标五门齐为6番(id=63)，停用32番项
-  20: checkYiSeSanBuGao,
-  21: checkQuanDaiWu,
-  22: checkQuanDa,
-  23: checkQuanZhong,
-  24: checkQuanXiao,
-  25: checkYiSeSanTongShun,
-  26: checkYiSeSanJieGao,
-  27: checkQuanShuangKe,
-  28: checkQingYiSe,
+  // 64番
+  // 8 清幺九 - 未实现 (TODO)
+  9:  checkXiaoSiXi,
+  10: checkXiaoSanYuan,
+  11: checkZiYiSe,
+  12: checkSiAnKe,
+  13: checkYiSeShuangLongHui,
+  // 48番
+  14: checkYiSeSiTongShun,
+  15: checkYiSeSiJieGao,
+  // 32番
+  16: checkYiSeSiBuGao,
+  17: checkSanGang,
+  18: checkHunYaoJiu,
+  // 24番
+  19: checkQiDui,
+  // 20 七星不靠 - 未实现 (TODO)
+  21: checkQuanShuangKe,
+  22: checkQingYiSe,
+  23: checkYiSeSanTongShun,
+  24: checkYiSeSanJieGao,
+  25: checkQuanDa,
+  26: checkQuanZhong,
+  27: checkQuanXiao,
+  // 16番
+  28: checkQingLong,
   29: checkSanSeShuangLongHui,
-  30: checkQiDui,
-  32: checkSanSeSanTongShun,
-  33: checkSanSeSanJieGao,
-  34: checkSanTongKe,
-  35: checkSanAnKe,
-  36: checkSanSeSanBuGao,
-  37: checkHuaLong,
-  41: checkQingLong,
-  55: checkHunYiSe,
-  56: checkQuanDaiYao,
-  60: checkPengPengHu,
-  61: checkHunYiSe,
-  62: checkSanSeSanBuGao,
-  63: checkWuMenQi,
-  65: checkShuangJianKe,
-  54: checkShuangAnGang,
-  66: checkShuangAnKe,
-  // 69: 双明杠 — 暂未实现
-  // 74: 双明杠 — 暂未实现
-  79: checkMenQianQing,
-  87: checkMenQianQing,
-  90: checkShuangAnKe,
-  91: checkAnGang,
-  67: checkQuanDaiYao,
-  68: checkBuQiuRen,
-  71: checkShuangTongKe,
-  72: checkQuanDaiYao,
-  73: checkBuQiuRen,
-  76: checkJianKe,
-  77: checkQuanFengKe,
-  78: checkMenFengKe,
-  // 79: checkMenQianQing,  // 门前清(停用) — 拍照无法判断是否吃碰杠
-  80: checkSiGuiYi,
-  82: checkPingHe,
-  83: checkDuanYao,
-  84: checkJianKe,
-  85: checkQuanFengKe,
-  86: checkMenFengKe,
-  // 87: checkMenQianQing,  // 门前清(停用)
-  88: checkSiGuiYi,
-  92: checkYiBanGao,
-  93: checkXiXiangFeng,
-  94: checkLianLiu,
-  95: checkLaoShaoFu,
-  96: checkYaoJiuKe,
-  97: checkMingGang,
-  98: checkQueYiMen,
-  99: checkWuZi,
-  103: checkZiMo,
+  30: checkYiSeSanBuGao,
+  31: checkQuanDaiWu,
+  32: checkSanTongKe,
+  33: checkSanAnKe,
+  // 12番
+  // 34 全不靠 - 未实现 (TODO)
+  // 35 组合龙 - 未实现 (TODO)
+  36: function(count, decomp, ctx) {
+    // 大于五: 仅由 6-9 数牌组成
+    for (let i = 0; i < 27; i++) {
+      if (count[i] > 0) {
+        const r = i % 9 + 1;
+        if (r < 6) return false;
+      }
+    }
+    for (let i = 27; i < 34; i++) if (count[i] > 0) return false;
+    return true;
+  },
+  37: function(count, decomp, ctx) {
+    // 小于五: 仅由 1-4 数牌组成
+    for (let i = 0; i < 27; i++) {
+      if (count[i] > 0) {
+        const r = i % 9 + 1;
+        if (r > 4) return false;
+      }
+    }
+    for (let i = 27; i < 34; i++) if (count[i] > 0) return false;
+    return true;
+  },
+  38: checkSanFengKe,
+  // 8番
+  39: checkHuaLong,
+  // 40 推不倒 - 未实现 (TODO)
+  41: checkSanSeSanTongShun,
+  42: checkSanSeSanJieGao,
+  // 43 无番和 - 在主流程末尾兜底处理 (TODO)
+  // 44-47 妙手/海底/杠上/抢杠 - 需要 ctx 标志，未实现
+  // 6番
+  48: checkPengPengHu,
+  49: checkHunYiSe,
+  50: checkSanSeSanBuGao,
+  51: checkWuMenQi,
+  // 52 全求人 - 需要 ctx, 未实现
+  53: checkShuangAnGang,
+  81: checkShuangJianKe,
+  // 4番
+  54: checkQuanDaiYao,
+  55: checkBuQiuRen,
+  // 56 双明杠 - 未实现
+  // 57 和绝张 - 未实现
+  // 2番
+  58: checkJianKe,
+  59: checkQuanFengKe,
+  60: checkMenFengKe,
+  61: checkMenQianQing,
+  62: checkPingHe,
+  63: checkSiGuiYi,
+  64: checkShuangTongKe,
+  65: checkShuangAnKe,
+  66: checkAnGang,
+  67: checkDuanYao,
+  // 1番
+  68: checkYiBanGao,
+  69: checkXiXiangFeng,
+  70: checkLianLiu,
+  71: checkLaoShaoFu,
+  72: checkYaoJiuKe,
+  73: checkMingGang,
+  74: checkQueYiMen,
+  75: checkWuZi,
+  // 76 边张 - 需要听牌信息，未实现
+  // 77 坎张 - 需要听牌信息，未实现
+  // 78 单钓将 - 需要听牌信息，未实现
+  79: checkZiMo,
+  // 80 花牌 - 在 calculateFan 末尾根据 flowerCount 单独处理
 };
 
 // ---- 计分引擎 ----
@@ -1120,21 +1157,18 @@ function calculateFan(tiles, ctx = {}) {
 
     const resolvedIds = resolveExclusions(applicableIds);
 
-    // 按番数降序，然后按名称去重（避免混一色8+6等重复番种双计）
+    // 按番数降序排列（番种已唯一，无需按名称去重）
     const resolvedWithFan = resolvedIds
       .map(id => C.FAN_TYPES.find(f => f.id === id))
       .filter(Boolean)
+      .filter(f => f.fan > 0)  // 跳过 fan=0 的停用项
       .sort((a, b) => b.fan - a.fan);
-    
-    const seenNames = new Set();
+
     let totalFan = 0;
     const details = [];
     for (const fanType of resolvedWithFan) {
-      if (!seenNames.has(fanType.name)) {
-        seenNames.add(fanType.name);
-        totalFan += fanType.fan;
-        details.push({ name: fanType.name, fan: fanType.fan, desc: fanType.desc });
-      }
+      totalFan += fanType.fan;
+      details.push({ name: fanType.name, fan: fanType.fan, desc: fanType.desc });
     }
 
     if (totalFan > bestResult.totalFan) {
@@ -1144,7 +1178,7 @@ function calculateFan(tiles, ctx = {}) {
 
   // 特殊检查：如果普通拆解不行，尝试纯七对
   if (bestResult.totalFan === 0 && checkQiDui(count, null)) {
-    const qiduiFan = C.FAN_TYPES.find(f => f.id === 30);
+    const qiduiFan = C.FAN_TYPES.find(f => f.id === 19);
     bestResult = {
       totalFan: qiduiFan ? qiduiFan.fan : 24,
       details: [{ name: '七对', fan: qiduiFan ? qiduiFan.fan : 24, desc: '七个对子' }]
