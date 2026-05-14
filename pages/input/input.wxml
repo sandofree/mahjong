@@ -1,5 +1,10 @@
 <!-- pages/input/input.wxml -->
 <view class="container">
+  <!-- 拍照预览 -->
+  <view class="photo-preview" wx:if="{{cameraPhoto}}">
+    <image class="photo-thumb" src="{{cameraPhoto}}" mode="aspectFit"></image>
+  </view>
+
   <!-- 已选手牌展示区 -->
   <view class="selected-area">
     <view class="selected-title">

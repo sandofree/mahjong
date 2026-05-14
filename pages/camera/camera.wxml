@@ -8,11 +8,23 @@
       binderror="onCameraError"
       class="full-camera"
     >
-      <!-- 取景框引导 -->
+      <!-- 取景框引导：半透明遮罩 + 正方形镂空（适配640x640模型输入） -->
       <view class="guide-overlay">
-        <view class="guide-frame">
-          <view class="guide-text">请将14张手牌放入框内</view>
+        <view class="guide-mask guide-mask-top"></view>
+        <view class="guide-row">
+          <view class="guide-mask guide-mask-side"></view>
+          <view class="guide-window">
+            <view class="guide-corners">
+              <view class="corner corner-tl"></view>
+              <view class="corner corner-tr"></view>
+              <view class="corner corner-bl"></view>
+              <view class="corner corner-br"></view>
+            </view>
+          </view>
+          <view class="guide-mask guide-mask-side"></view>
         </view>
+        <view class="guide-mask guide-mask-bottom"></view>
+        <view class="guide-hint">请将14张手牌放入框内</view>
       </view>
     </camera>
 
@@ -38,7 +50,7 @@
 <!-- 识别中提示 -->
 <view class="loading-mask" wx:if="{{recognizing}}">
   <view class="loading-spinner"></view>
-  <view class="loading-text">AI 识别中...</view>
+  <view class="loading-text">云端图像识别中...</view>
   <view class="loading-sub">正在分析牌面，请稍候 {{recognizingSeconds}} 秒</view>
-  <view class="loading-tip">大模型识别约需 5-15 秒</view>
+  <view class="loading-tip">AI 视觉识别约需 10-20 秒</view>
 </view>

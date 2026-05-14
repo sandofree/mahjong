@@ -98,6 +98,7 @@ Page({
             if (tiles.length >= 6 && tiles.length <= 18) {
               app.globalData.recognizedTiles = tiles;
               app.globalData.handTiles = tiles;
+              app.globalData.cameraPhoto = this.data.photoPath;
               if (result.partial || tiles.length < 14) {
                 wx.showToast({
                   title: `识别到 ${tiles.length} 张，请补齐到 14 张`,

@@ -34,12 +34,20 @@ Page({
       { name: '竹', emoji: '🎍', selected: false },
     ],
     flowerCount: 0,
+    // 拍照预览
+    cameraPhoto: '',
     // 计算结果
     resultReady: false,
   },
 
   onLoad(options) {
     this.buildTileGroups();
+
+    // 拍照识别后跳转过来的，展示照片预览
+    const cameraPhoto = app.globalData.cameraPhoto;
+    if (cameraPhoto) {
+      this.setData({ cameraPhoto });
+    }
 
     // 拍照识别后跳转过来的，预填手牌（识别 6-18 张都允许，不足 14 张时用户在页面里继续补齐）
     if (options && options.prefill === '1') {
